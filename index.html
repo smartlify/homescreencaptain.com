@@ -387,7 +387,6 @@
 
     .card {
       position: relative;
-      min-height: 390px;
       border-radius: var(--radius-lg);
       overflow: hidden;
       padding: 28px;
@@ -421,42 +420,6 @@
       margin-bottom: 13px;
     }
     .card p { color: #5a7390; margin-bottom: 0; }
-
-    .card-art {
-      position: relative;
-      width: 100%;
-      height: 108px;
-      margin-top: auto;
-      padding: 14px;
-      border-radius: 20px;
-      background: rgba(255,255,255,.72);
-      border: 1px solid rgba(9,43,99,.07);
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      align-items: center;
-    }
-
-    .card p {
-      padding-bottom: 28px;
-    }
-
-    .app-tile {
-      height: 72px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      color: white;
-      font-weight: 900;
-      font-size: 23px;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
-    }
-    .t1 { background: #178fe6; }
-    .t2 { background: #3baa48; }
-    .t3 { background: #7a22a8; }
-    .t4 { background: #ff8b08; }
-    .t5 { background: #0a9587; }
-    .t6 { background: #4054b8; }
 
     .personalize {
       display: grid;
@@ -594,7 +557,6 @@
       .float-card.two { right: 4%; }
       .showcase { padding: 30px; }
       .cards { grid-template-columns: 1fr; }
-      .card { min-height: 300px; }
       .personal-card { min-height: 400px; }
       .footer-top { grid-template-columns: 1fr; }
       .footer-links { justify-content: flex-start; }
@@ -706,33 +668,18 @@
             <div class="icon-box" aria-hidden="true">Aa</div>
             <h3>Bigger buttons and clear text</h3>
             <p>A straightforward home screen with larger tap targets and easy-to-read labels.</p>
-            <div class="card-art" aria-hidden="true">
-              <div class="app-tile t1">☎</div>
-              <div class="app-tile t2">✉</div>
-              <div class="app-tile t4">@</div>
-            </div>
           </article>
 
           <article class="card">
             <div class="icon-box" aria-hidden="true">⌕</div>
             <h3>Search and shortcuts</h3>
             <p>Use the built-in search bar and keep useful apps and tools close at hand.</p>
-            <div class="card-art" aria-hidden="true">
-              <div class="app-tile t6">⌕</div>
-              <div class="app-tile t2">☁</div>
-              <div class="app-tile t3">▦</div>
-            </div>
           </article>
 
           <article class="card">
             <div class="icon-box" aria-hidden="true">⌨</div>
             <h3>Optional large-key keyboard</h3>
             <p>Switch to the optional custom keyboard with larger keys whenever you want an easier typing experience.</p>
-            <div class="card-art" aria-hidden="true">
-              <div class="app-tile t1">A</div>
-              <div class="app-tile t5">B</div>
-              <div class="app-tile t6">C</div>
-            </div>
           </article>
         </div>
       </div>

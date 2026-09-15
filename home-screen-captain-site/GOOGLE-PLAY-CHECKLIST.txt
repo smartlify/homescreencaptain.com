@@ -1,0 +1,56 @@
+HOME SCREEN CAPTAIN — GOOGLE PLAY PUBLICATION CHECKLIST
+Last updated: September 14, 2026
+
+These pages are policy-oriented templates, not a guarantee of legal or Google Play approval.
+They must match the app's real behavior and every SDK/library included in the release.
+
+1. PRIVACY POLICY
+- Host privacy.html at a public, active HTTPS URL.
+- Add that URL in Google Play Console.
+- Make the Privacy Policy reachable inside the app as well.
+- Keep the policy consistent with the Play Console Data safety form.
+
+2. DATA SAFETY
+- Review the final APK/AAB and every third-party SDK.
+- "No data collected" is appropriate only if the app and included SDKs actually satisfy Google's definition.
+- Search, weather, coupon, crash-reporting, analytics, advertising, or other SDKs can change the answer.
+- Update the Data safety form whenever app or SDK behavior changes.
+
+3. ACCESSIBILITY SERVICE
+- A launcher is not automatically an "accessibility tool."
+- If AccessibilityService is used for coupon/shopping assistance, complete the Play Console Accessibility declaration.
+- Show a separate, prominent in-app disclosure immediately before requesting Accessibility permission.
+- The disclosure must explain what information the service can access and exactly why.
+- Require affirmative user consent.
+- Website text or the Privacy Policy alone is not enough.
+- The feature should remain optional and permission should be reversible.
+
+Suggested in-app disclosure:
+"Shopping Assistance uses Android Accessibility Service only when you enable it.
+It can detect supported shopping pages opened in supported browsers so Home Screen Captain can identify and display relevant coupons or offers.
+This access is not used to read passwords or payment details, build a browsing profile, or monitor unrelated activity.
+The feature is optional and can be turned off at any time in Android Accessibility settings."
+[Not Now] [Agree & Continue]
+
+4. ADVERTISING
+- If the app displays ads, make sure the store listing and Privacy Policy do not make conflicting claims.
+- Review the final advertising SDK configuration before completing the Play Console Data safety form.
+- Keep ads appropriate for the app's content rating and follow Google Play advertising policies.
+
+5. OPTIONAL KEYBOARD
+- Keep keyboard enablement user-initiated.
+- Do not collect or transmit typed content if the privacy policy says you do not.
+- If any spelling, voice, AI, analytics, crash, or cloud feature transmits text, update the policy and Data safety form first.
+
+6. STORE LISTING
+- Use real screenshots that accurately represent the app.
+- Avoid absolute claims such as "100% safe," "guaranteed safe," or "collects zero data" unless they are literally true for the complete app and all SDKs.
+- Factual wording such as "No account required" and "Home Screen Captain does not sell personal information" is safer when accurate.
+
+7. SUPPORT
+- Make sure the developer support email in Google Play Console is active.
+- If you want a visible email on support.html, replace the generic instruction with the verified support email.
+
+8. BEFORE RELEASE
+- Test install, launcher switching, uninstall, keyboard disable, Accessibility disable, and search settings reversal.
+- Verify Privacy Policy, Terms, Cookie Policy, Support and FAQ links all work over HTTPS.

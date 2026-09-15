@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b63f6" />
+  <meta name="description" content="Home Screen Captain is a clean, customizable Android launcher with larger buttons, clear text, helpful shortcuts, widgets, and an optional large-key keyboard." />
+  <title>Home Screen Captain | A Simpler Android Home Screen</title>
+
+  <style>
+    :root {
+      --ink: #092b63;
+      --ink-2: #21446f;
+      --blue: #0b63f6;
+      --blue-2: #3da6ff;
+      --sky: #eaf6ff;
+      --card: rgba(255,255,255,.88);
+      --line: rgba(9,43,99,.09);
+      --shadow: 0 24px 70px rgba(10,65,140,.16);
+      --radius-xl: 36px;
+      --radius-lg: 28px;
+      --radius-md: 20px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #fff;
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    .container {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(255,255,255,.84);
+      border-bottom: 1px solid rgba(9,43,99,.07);
+    }
+
+    .nav {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 850;
+      letter-spacing: -.02em;
+      font-size: 19px;
+    }
+
+    .brand img {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(11,99,246,.22);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-size: 14px;
+      font-weight: 720;
+      color: var(--ink-2);
+    }
+
+    .nav-links a:not(.btn):hover { color: var(--blue); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 0 22px;
+      border-radius: 999px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      border: 1px solid transparent;
+      transition: .2s ease;
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--blue), #0a85f9);
+      box-shadow: 0 13px 30px rgba(11,99,246,.26);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 36px rgba(11,99,246,.32); }
+
+    .btn-soft {
+      background: white;
+      border-color: rgba(9,43,99,.12);
+      box-shadow: 0 10px 28px rgba(9,43,99,.08);
+    }
+    .btn-soft:hover { border-color: rgba(11,99,246,.35); transform: translateY(-2px); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 88px 0 92px;
+      background:
+        radial-gradient(circle at 8% 20%, rgba(96,195,255,.42), transparent 31%),
+        radial-gradient(circle at 92% 12%, rgba(11,99,246,.18), transparent 28%),
+        linear-gradient(180deg, #f4fbff 0%, #ffffff 86%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 620px;
+      height: 620px;
+      border-radius: 50%;
+      right: -250px;
+      bottom: -360px;
+      background: rgba(83,181,255,.12);
+      filter: blur(2px);
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.06fr .94fr;
+      gap: 70px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: #e8f4ff;
+      color: #0963c8;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: .02em;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22b573;
+      box-shadow: 0 0 0 4px rgba(34,181,115,.12);
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      font-size: clamp(48px, 6vw, 82px);
+      line-height: .98;
+      letter-spacing: -.055em;
+      margin-bottom: 24px;
+      max-width: 800px;
+    }
+
+    .hero p {
+      font-size: clamp(18px, 2.1vw, 22px);
+      color: #395779;
+      max-width: 670px;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .microcopy {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #647b98;
+    }
+
+    .phone-stage {
+      min-height: 690px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .halo {
+      position: absolute;
+      width: min(520px, 90%);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(65,179,255,.30), rgba(11,99,246,.06));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.8);
+    }
+
+    .phone {
+      position: relative;
+      width: min(360px, 78vw);
+      border-radius: 48px;
+      padding: 11px;
+      background: linear-gradient(145deg, #1b1b1d, #050505);
+      box-shadow: 0 40px 90px rgba(10,49,103,.31), inset 0 0 0 2px rgba(255,255,255,.14);
+      transform: rotate(2.2deg);
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 112px;
+      height: 16px;
+      border-radius: 0 0 12px 12px;
+      background: #070708;
+      z-index: 2;
+      opacity: .82;
+    }
+
+    .phone img {
+      width: 100%;
+      border-radius: 39px;
+      aspect-ratio: 720 / 1600;
+      object-fit: cover;
+    }
+
+    .float-card {
+      position: absolute;
+      z-index: 3;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.91);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 18px 42px rgba(10,65,140,.16);
+      border: 1px solid rgba(255,255,255,.8);
+      font-size: 13px;
+      font-weight: 850;
+      color: var(--ink);
+    }
+    .float-card.one { left: 0; top: 20%; }
+    .float-card.two { right: -10px; bottom: 18%; }
+
+    .section {
+      padding: 104px 0;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 54px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(38px, 4.6vw, 60px);
+      line-height: 1.02;
+      letter-spacing: -.045em;
+      margin-bottom: 18px;
+    }
+
+    .section-head p {
+      color: #52708e;
+      font-size: 18px;
+      margin-bottom: 0;
+    }
+
+    .feature-band {
+      background: #f5faff;
+      border-top: 1px solid #edf4fb;
+      border-bottom: 1px solid #edf4fb;
+    }
+
+    .showcase {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      align-items: center;
+      gap: 70px;
+      padding: 46px;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, #e7f5ff, #fdfefe 60%);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(9,43,99,.07);
+    }
+
+    .mini-phone-wrap {
+      display: flex;
+      justify-content: center;
+      min-height: 550px;
+      align-items: flex-end;
+      overflow: hidden;
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(79,186,255,.45), transparent 38%),
+        linear-gradient(180deg,#dff2ff,#f7fbff);
+      padding-top: 34px;
+    }
+
+    .mini-phone {
+      width: 300px;
+      padding: 8px;
+      border-radius: 40px 40px 0 0;
+      background: #101113;
+      box-shadow: 0 28px 65px rgba(8,38,77,.26);
+      transform: translateY(26px);
+    }
+
+    .mini-phone img {
+      border-radius: 33px 33px 0 0;
+      width: 100%;
+    }
+
+    .kicker {
+      color: #0a73df;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: .14em;
+      font-weight: 900;
+      margin-bottom: 13px;
+    }
+
+    .showcase h2 {
+      font-size: clamp(37px, 4.4vw, 56px);
+      line-height: 1.04;
+      letter-spacing: -.045em;
+      margin-bottom: 18px;
+    }
+
+    .showcase p { color: #52708e; font-size: 18px; }
+
+    .checklist {
+      display: grid;
+      gap: 16px;
+      margin: 28px 0 0;
+    }
+
+    .check {
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+      font-weight: 760;
+      color: #24466d;
+    }
+    .check span:first-child {
+      flex: 0 0 auto;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: #18ad6c;
+      font-size: 13px;
+      margin-top: 1px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 390px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      padding: 28px;
+      background: white;
+      border: 1px solid rgba(9,43,99,.08);
+      box-shadow: 0 18px 50px rgba(8,49,110,.08);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:nth-child(1) { background: linear-gradient(180deg, #eff8ff, #fff); }
+    .card:nth-child(2) { background: linear-gradient(180deg, #f1fff9, #fff); }
+    .card:nth-child(3) { background: linear-gradient(180deg, #f7f0ff, #fff); }
+
+    .icon-box {
+      width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 10px 30px rgba(9,43,99,.10);
+      font-size: 29px;
+      margin-bottom: 30px;
+    }
+
+    .card h3 {
+      font-size: 27px;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      margin-bottom: 13px;
+    }
+    .card p { color: #5a7390; margin-bottom: 0; }
+
+    .card-art {
+      position: relative;
+      width: 100%;
+      height: 108px;
+      margin-top: auto;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(9,43,99,.07);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      align-items: center;
+    }
+
+    .card p {
+      padding-bottom: 28px;
+    }
+
+    .app-tile {
+      height: 72px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      font-size: 23px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
+    }
+    .t1 { background: #178fe6; }
+    .t2 { background: #3baa48; }
+    .t3 { background: #7a22a8; }
+    .t4 { background: #ff8b08; }
+    .t5 { background: #0a9587; }
+    .t6 { background: #4054b8; }
+
+    .personalize {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: stretch;
+    }
+
+    .personal-card {
+      border-radius: var(--radius-xl);
+      padding: 44px;
+      min-height: 460px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .personal-card.blue {
+      color: white;
+      background: linear-gradient(150deg, #0759df, #1495f5 62%, #52c4ff);
+      box-shadow: 0 26px 70px rgba(7,89,223,.22);
+    }
+    .personal-card.soft {
+      background: #f6f9ff;
+      border: 1px solid rgba(9,43,99,.08);
+    }
+
+    .personal-card h3 {
+      font-size: clamp(33px, 4vw, 48px);
+      line-height: 1.03;
+      letter-spacing: -.04em;
+      max-width: 480px;
+      margin-bottom: 18px;
+    }
+    .personal-card p { max-width: 500px; font-size: 17px; }
+    .personal-card.blue p { color: rgba(255,255,255,.82); }
+    .personal-card.soft p { color: #56718f; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+    .chip {
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 850;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.20);
+    }
+    .soft .chip { background: white; border-color: rgba(9,43,99,.09); color: var(--ink-2); }
+
+    .keyboard-visual {
+      position: absolute;
+      right: -45px;
+      bottom: -35px;
+      width: 340px;
+      padding: 18px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 30px 70px rgba(8,46,100,.20);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      transform: rotate(-5deg);
+    }
+
+    .key {
+      height: 45px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: #15385f;
+      font-weight: 900;
+      background: #f3f7fb;
+      box-shadow: inset 0 -2px 0 rgba(11,42,80,.08);
+    }
+
+    .cta-wrap { padding-top: 10px; }
+    .cta {
+      border-radius: 42px;
+      padding: 68px 50px;
+      text-align: center;
+      color: white;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(127,216,255,.30), transparent 25%),
+        linear-gradient(135deg, #07368a, #075fe8 52%, #0a8cf4);
+      box-shadow: 0 30px 90px rgba(7,67,168,.25);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cta h2 {
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1.02;
+      letter-spacing: -.045em;
+      margin-bottom: 18px;
+    }
+    .cta p { color: rgba(255,255,255,.82); max-width: 720px; margin: 0 auto 28px; font-size: 18px; }
+    .cta .btn { background: white; color: #0a54cb; box-shadow: 0 15px 40px rgba(0,0,0,.12); }
+
+    footer {
+      padding: 48px 0 34px;
+      border-top: 1px solid #edf2f7;
+      background: #fbfdff;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+    .footer-copy { color: #67809b; max-width: 560px; font-size: 14px; margin-top: 14px; }
+    .footer-links {
+      display: flex;
+      justify-content: flex-end;
+      gap: 22px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      font-weight: 760;
+      color: #4d6682;
+    }
+    .copyright {
+      margin-top: 34px;
+      padding-top: 22px;
+      border-top: 1px solid #edf2f7;
+      color: #7b8da2;
+      font-size: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .nav-links a:not(.btn) { display: none; }
+      .hero { padding-top: 68px; }
+      .hero-grid, .showcase, .personalize { grid-template-columns: 1fr; }
+      .hero-grid { gap: 30px; }
+      .phone-stage { min-height: 610px; }
+      .float-card.one { left: 5%; }
+      .float-card.two { right: 4%; }
+      .showcase { padding: 30px; }
+      .cards { grid-template-columns: 1fr; }
+      .card { min-height: 300px; }
+      .personal-card { min-height: 400px; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-links { justify-content: flex-start; }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(100% - 24px, var(--max)); }
+      .nav { height: 68px; }
+      .brand { font-size: 16px; }
+      .brand img { width: 40px; height: 40px; border-radius: 12px; }
+      .nav-links .btn { min-height: 42px; padding: 0 16px; font-size: 13px; }
+      .hero { padding: 54px 0 66px; }
+      .hero p { font-size: 17px; }
+      .hero-actions .btn { width: 100%; }
+      .phone-stage { min-height: 560px; }
+      .float-card { display: none; }
+      .section { padding: 76px 0; }
+      .section-head { margin-bottom: 34px; }
+      .showcase { border-radius: 26px; padding: 22px; gap: 34px; }
+      .mini-phone-wrap { min-height: 470px; }
+      .mini-phone { width: 265px; }
+      .card { padding: 24px; }
+      .personal-card { padding: 30px; border-radius: 28px; }
+      .keyboard-visual { width: 270px; right: -70px; }
+      .cta { padding: 50px 24px; border-radius: 30px; }
+      .footer-links { gap: 14px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a target="_blank" rel="noopener noreferrer" class="brand" href="https://play.google.com/store/apps/details?id=com.homescreencaptain.launcher" aria-label="Home Screen Captain home">
+        <img src="assets/app-icon.png" alt="Home Screen Captain app icon" />
+        <span>Home Screen Captain</span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#features">Features</a>
+        <a href="#customize">Customize</a>
+        <!-- Replace #download with the public Google Play listing URL when available. -->
+        <a target="_blank" rel="noopener noreferrer" class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.homescreencaptain.launcher">Download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-dot"></span> Built for a simpler Android experience</div>
+          <h1>Make your home screen feel easy again.</h1>
+          <p>Home Screen Captain turns a busy Android home screen into a cleaner, easier-to-read space with bigger buttons, clear text, helpful shortcuts, and simple personalization.</p>
+          <div class="hero-actions">
+            <a target="_blank" rel="noopener noreferrer" class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.homescreencaptain.launcher">Get Home Screen Captain</a>
+            <a class="btn btn-soft" href="#features">See the features</a>
+          </div>
+          <div class="microcopy">Android launcher • Optional large-key keyboard • Customizable home screen</div>
+        </div>
+
+        <div class="phone-stage" aria-label="Home Screen Captain app preview">
+          <div class="halo"></div>
+          <div class="float-card one">Bigger buttons<br />Clearer text</div>
+          <div class="float-card two">Simple shortcuts<br />Less clutter</div>
+          <div class="phone">
+            <img src="assets/app-screen.jpg" alt="Home Screen Captain home screen showing large buttons for Contacts, Messages, Email, Phone, All Apps and Internet" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section feature-band" id="features">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Simple by design</div>
+          <h2>Everything important, without the clutter.</h2>
+          <p>Keep everyday apps and tools easy to reach while giving your home screen more room to breathe.</p>
+        </div>
+
+        <div class="showcase">
+          <div class="mini-phone-wrap">
+            <div class="mini-phone">
+              <img src="assets/app-screen.jpg" alt="Home Screen Captain launcher interface" />
+            </div>
+          </div>
+          <div>
+            <div class="kicker">Clean layout, clear choices</div>
+            <h2>Simple layout. Zero guesswork.</h2>
+            <p>Large tiles and familiar labels help make everyday navigation straightforward. Keep the apps that matter visible and make the rest easier to find when needed.</p>
+            <div class="checklist">
+              <div class="check"><span>✓</span><div>Larger buttons and readable labels for common actions</div></div>
+              <div class="check"><span>✓</span><div>Fast access to Contacts, Messages, Email, Phone, All Apps and Internet</div></div>
+              <div class="check"><span>✓</span><div>Home-screen search and useful shortcuts in one place</div></div>
+              <div class="check"><span>✓</span><div>A calm layout that keeps important tools easy to reach</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Everyday essentials</div>
+          <h2>Designed around the way people actually use a phone.</h2>
+          <p>Home Screen Captain keeps the experience familiar while making common actions feel more direct.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="icon-box" aria-hidden="true">Aa</div>
+            <h3>Bigger buttons and clear text</h3>
+            <p>A straightforward home screen with larger tap targets and easy-to-read labels.</p>
+            <div class="card-art" aria-hidden="true">
+              <div class="app-tile t1">☎</div>
+              <div class="app-tile t2">✉</div>
+              <div class="app-tile t4">@</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="icon-box" aria-hidden="true">⌕</div>
+            <h3>Search and shortcuts</h3>
+            <p>Use the built-in search bar and keep useful apps and tools close at hand.</p>
+            <div class="card-art" aria-hidden="true">
+              <div class="app-tile t6">⌕</div>
+              <div class="app-tile t2">☁</div>
+              <div class="app-tile t3">▦</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="icon-box" aria-hidden="true">⌨</div>
+            <h3>Optional large-key keyboard</h3>
+            <p>Switch to the optional custom keyboard with larger keys whenever you want an easier typing experience.</p>
+            <div class="card-art" aria-hidden="true">
+              <div class="app-tile t1">A</div>
+              <div class="app-tile t5">B</div>
+              <div class="app-tile t6">C</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section feature-band" id="customize">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Make it yours</div>
+          <h2>A home screen that adapts to your preferences.</h2>
+          <p>Choose the look, tools, and layout that feel right for everyday use.</p>
+        </div>
+
+        <div class="personalize">
+          <article class="personal-card blue">
+            <h3>Customize your home screen.</h3>
+            <p>Choose fonts, themes, icons, widgets, and the apps that stay front and center.</p>
+            <div class="chips">
+              <span class="chip">Themes</span>
+              <span class="chip">Fonts</span>
+              <span class="chip">App icons</span>
+              <span class="chip">Widgets</span>
+              <span class="chip">App hiding</span>
+            </div>
+          </article>
+
+          <article class="personal-card soft">
+            <h3>Type with more room.</h3>
+            <p>Home Screen Captain includes an optional custom keyboard with larger keys that can be enabled as an alternative to the device's standard keyboard.</p>
+            <div class="keyboard-visual" aria-hidden="true">
+              <div class="key">Q</div><div class="key">W</div><div class="key">E</div><div class="key">R</div><div class="key">T</div>
+              <div class="key">A</div><div class="key">S</div><div class="key">D</div><div class="key">F</div><div class="key">G</div>
+              <div class="key">Z</div><div class="key">X</div><div class="key">C</div><div class="key">V</div><div class="key">B</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-wrap" id="download">
+      <div class="container">
+        <div class="cta">
+          <h2>Take control of your screen.</h2>
+          <p>Keep the apps, tools, and information that matter within easy reach with a cleaner, more personal Android home screen.</p>
+          <!-- Replace # with your actual public Google Play URL. -->
+          <a target="_blank" rel="noopener noreferrer" class="btn" href="https://play.google.com/store/apps/details?id=com.homescreencaptain.launcher" onclick="return false;">Download on Google Play</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <a class="brand" href="#top">
+            <img src="assets/app-icon.png" alt="" />
+            <span>Home Screen Captain</span>
+          </a>
+          <p class="footer-copy">A clean, smart, and customizable Android home screen launcher designed to keep everyday apps, tools, and information easy to reach.</p>
+        </div>
+        <div class="footer-links">
+          <!-- Replace the placeholder links below with your live legal/support URLs. -->
+          <a href="terms.html">Terms of Use</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="cookies.html">Cookie Policy</a>
+          <a href="support.html">Support</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </div>
+      <div class="copyright">© 2026 Home Screen Captain. All rights reserved.</div>
+    </div>
+  </footer>
+</body>
+</html>
